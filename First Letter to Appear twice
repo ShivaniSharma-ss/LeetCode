@@ -1,0 +1,35 @@
+Using Set
+
+class Solution {
+    public char repeatedCharacter(String s) {
+        Set<Character>set=new HashSet<>();
+        for(char c:s.toCharArray())
+        {
+            if(!set.add(c))
+            {
+                return c;
+            }
+        }
+        return ' ';
+    }
+}
+
+T.C O(log n)
+S.C O(n)
+
+
+class Solution {
+    public char repeatedCharacter(String s) {
+        char ch[]=s.toCharArray();
+        int count[]=new int [26];
+        for(int i=0;i<ch.length;i++)
+        {
+            count[ch[i]-'a']++;
+            if(count[ch[i]-'a']>1) return ch[i];
+        }
+        return ' ';
+    }
+}
+
+T.C O(n)
+S.C O(1)
