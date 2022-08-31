@@ -1,0 +1,83 @@
+##
+1. Brute-Force:-
+One easiest way to solve this question is to sort the array, as mentioned in the question. 
+Since you do not have to return the kth distinct element, hence you can then return the (length af array - k)th element, which is our answer.
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int len = nums.length;
+        Arrays.sort(nums);
+        return nums[len-k];
+    }
+}
+Time Complexity: O(n * logn)
+Space Complexity: O(1)
+
+
+##
+import java.util.*;
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+    for(int i=0;i<k;i++)
+    {
+        pq.add(nums[i]);
+    }
+    
+    for(int i=k;i<nums.length;i++)
+    {
+        if(nums[i]>pq.peek())
+        {
+            pq.poll();
+            pq.add(nums[i]);
+        }
+    }
+        return pq.peek();
+}
+}
+
+
+Time complexity:O(n log k)
+
+
+M-3 Using Quick Sort
+
+In the quick select, we will partition the array into parts, and from that we will retrieve our answer.
+1.	Take a pivot element (generally taken the last element of the array)
+2.	Point a pointer to the first element of the array
+3.	Next, start iteration of the array, and when you encounter an element, which is less than or equal to then pivot, then immediately swap the element at the pointer, and that current selected element in the array. Increase the pointer.
+4.	If the current element is greater than the pivot, then leave it as it it.
+5.	At last, swap the current pointer with pivot.
+6.	If you find out the kth position in the first partition in the array, then apply the same quick select there.
+7.	Else if you find that kth position in the second partition in the array, then apply that in the second part.
+
+
+
+class Solution {
+    public void swap(int[] nums, int a, int b){
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
+    }
+    
+    public int partition(int[] nums, int start, int end, int k){
+        int pivot = nums[end], p = start, ans = 0; 
+        
+        for(int i = start; i < end; i++){
+            if(nums[i] <= pivot) { swap(nums, i, p); p++; }
+        }
+        
+        swap(nums, end, p);
+        
+        if(k < p) { ans = partition(nums, start, p-1, k); }
+        else if(k > p) { ans = partition(nums, p+1, end, k); }
+        else if(k == p) { return nums[p]; }
+        return ans;
+    }
+    
+    public int findKthLargest(int[] nums, int k) {
+        return partition(nums, 0, nums.length-1, nums.length-k);
+    }
+}
+
+T.C O(n)
