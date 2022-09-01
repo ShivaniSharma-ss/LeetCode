@@ -1,0 +1,26 @@
+
+Logic of this question is that, we do a normal dfs pre order traversal!
+And then check for good node at every node!!
+As the binary tree is not a BST, we have to keep track of maximum value node(previous) and send that to subtrees.
+Finally we return our total good nodes.
+
+
+
+int count = 0; // global variable to count
+
+    public int goodNodes(TreeNode root) {
+        helper(root, root.val);
+        return count; // returning the count value
+    }
+
+    private void helper(TreeNode root, int max) {
+        if (root != null) {
+            if (root.val >= max) { // if root.val > the max value of path from root of the tree to current node 
+                count++; //increment count
+            }
+            helper(root.left, Math.max(root.val, max));  // updating max value of current path and traversing left to the current node
+            helper(root.right, Math.max(root.val, max));  // updating max value of current path and traversing right to the current node
+        }
+    }
+    
+    T.C O(n)
